@@ -86,7 +86,7 @@ void Tank::DrawTank() {
 		float x = cos(a) * 0.3;
 		float y = sin(a) * 0.3;
 		glVertex3f(x, y, -hl);
-		glVertex3f(x, y, hl);
+		glVertex3f(x, y, hl); //hi
 
 		a += step;
 	}
