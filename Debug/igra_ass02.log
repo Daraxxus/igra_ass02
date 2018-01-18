@@ -1,4 +1,6 @@
-﻿  stdafx.cpp
-  igra_ass02.cpp
-  igra_ass02.vcxproj -> c:\users\sandv\documents\visual studio 2017\Projects\igra_ass02\Debug\igra_ass02.exe
-  igra_ass02.vcxproj -> c:\users\sandv\documents\visual studio 2017\Projects\igra_ass02\Debug\igra_ass02.pdb (Partial PDB)
+﻿  Tank.cpp
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\tank.cpp(86): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\tank.cpp(87): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\tank.cpp(72): warning C4101: 'x': unreferenced local variable
+  igra_ass02.vcxproj -> C:\Users\sandv\documents\visual studio 2017\Projects\igra_ass02\Debug\igra_ass02.exe
+  igra_ass02.vcxproj -> C:\Users\sandv\documents\visual studio 2017\Projects\igra_ass02\Debug\igra_ass02.pdb (Partial PDB)

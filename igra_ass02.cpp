@@ -3,8 +3,11 @@
 
 #include "stdafx.h"
 #include "igra_ass02.h"
+#include "Tank.h"
 #include <gl\gl.h>
 #include <gl\glu.h>
+#include <math.h>
+#include <vector>
 
 #define MAX_LOADSTRING 100
 
@@ -23,6 +26,9 @@ int width = 720;
 int height = 480;
 int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
+int rotateDeg = 1;
+
+Tank *tank = new Tank();
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -83,6 +89,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
+			DrawGLScene();
+
+			SwapBuffers(hDC);
         }
     }
 
@@ -144,7 +153,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-
+   ReSizeGLScene(width, height);
    return TRUE;
 }
 
@@ -187,9 +196,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             EndPaint(hWnd, &ps);
         }
         break;
+	case WM_SIZE:
+	{
+		ReSizeGLScene(LOWORD(lParam), HIWORD(lParam));
+		break;
+	}
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+	case WM_TIMER:
+		rotateDeg++;
+		return 0;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
@@ -227,8 +244,8 @@ void ReSizeGLScene(GLsizei width, GLsizei height) {
 	// Reset The Projection Matrix
 	glLoadIdentity();
 	// Calculate The Aspect Ratio Of The Window
-	//gluPerspective(45.0f, (GLfloat)width / (GLfloat)height,	0.1f, 100.0f);
-	gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height,	0.1f, 100.0f);
+	//gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
 }
 
 int InitOpenGL() {
@@ -267,9 +284,38 @@ int InitOpenGL() {
 	return 1;
 }
 
+void Draw3D_AxisSystem() {
+	glBegin(GL_LINES);
+	// Draw positive x-axis as red
+	glColor3f(1.0, 0.0, 0.0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(10, 0, 0);
+	// Draw positive y-axis as green
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 10, 0);
+	// Draw positive z-axis as blue
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 0, 10);
+	glEnd();
+}
+
 void DrawGLScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1, 1, 1, 1);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glEnable(GL_DEPTH_TEST);
+
+	gluLookAt(5, 5, 5, 0, 0, 0, 0, 1, 0);
+	
+	Draw3D_AxisSystem();
+
+	glPushMatrix();
+	glTranslatef(1, 1, 2);
+	glRotatef(-90, 0, 1, 0);
+	tank->DrawTank();
+	glPopMatrix();
 }
 
