@@ -11,9 +11,6 @@ public:
 	void MoveForward(double dist);
 	void Rotate(double angle);
 
-	void ElevationRotate(double eRotate);
-	void SideRotate(double sRotate);
-
 	float degToRad(float degAngle);
 
 	GLfloat transform[16];

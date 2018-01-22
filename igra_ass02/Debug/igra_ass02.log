@@ -1,10 +1,7 @@
-﻿  stdafx.cpp
-  Tank.cpp
+﻿  Tank.cpp
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(81): warning C4101: 'x': unreferenced local variable
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(173): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(185): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(186): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(192): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  igra_ass02.cpp
-  Generating Code...
   igra_ass02.vcxproj -> C:\Users\Asus\igra_ass02\Debug\igra_ass02.exe
