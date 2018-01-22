@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Tank.cpp
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(81): warning C4101: 'x': unreferenced local variable
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(173): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
@@ -5,3 +6,16 @@ c:\users\asus\igra_ass02\igra_ass02\tank.cpp(185): warning C4244: '=': conversio
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(186): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\asus\igra_ass02\igra_ass02\tank.cpp(192): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   igra_ass02.vcxproj -> C:\Users\Asus\igra_ass02\Debug\igra_ass02.exe
+=======
+﻿  stdafx.cpp
+  Tank.cpp
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\tank.cpp(81): warning C4101: 'x': unreferenced local variable
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\tank.cpp(173): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\tank.cpp(185): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\tank.cpp(186): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\tank.cpp(192): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  igra_ass02.cpp
+  Generating Code...
+  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.exe
+  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.pdb (Partial PDB)
+>>>>>>> 6c30eedd09ea39327e9c3ffe2bdfba5632840717
