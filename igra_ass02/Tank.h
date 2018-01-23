@@ -6,7 +6,7 @@ class Tank
 public:
 	Tank();
 	void DrawTank();
-	void HandleKeyDown(WPARAM wParam);
+	void HandleKeyDown(double deltaTime);
 
 	void MoveForward(double dist);
 	void Rotate(double angle);
@@ -14,6 +14,17 @@ public:
 	float degToRad(float degAngle);
 
 	GLfloat transform[16];
+
+	void UpwardVector(double dist);
+
+	float xPos, yPos, zPos;
+	float xForwardV, yForwardV, zForwardV;
+	float yRot;
+	float xRot;
+	float xRotBarrel, yRotBarrel;
+
+	static Tank Player;
+
 	~Tank();
 
 private:

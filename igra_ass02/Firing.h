@@ -1,13 +1,18 @@
 #pragma once
 #include <gl\GL.h>
 #include <gl\GLU.h>
+#include <vector>
 class Firing
 {
 public:
-	Firing();
+	Firing(float xSPos, float ySPos, float zSPos);
 	void DrawProjectile();
 	void CalcTraj();
+
 	void Update(double deltaTime);
+	static void HandleKeyDown();
+	static std::vector<Firing*> shell;
+
 	~Firing();
 private:
 	bool isFired;
@@ -16,7 +21,10 @@ private:
 	float cd;
 	float angleProj;
 
-	float deltaTime;
-	float projSpeed;
+	float pRotY, pRotZ;
+
+	float xPos, yPos, zPos;
+	float forwardX, forwardY, forwardZ;
+	float yRot, yRotBarrel;
 };
 

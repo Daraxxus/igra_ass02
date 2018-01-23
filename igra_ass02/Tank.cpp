@@ -8,11 +8,7 @@
 #define VK_S 0x53
 #define VK_D 0x44
 
-float yRot;
-float xPos, yPos, zPos;
-
-float xRotBarrel, yRotBarrel;
-
+Tank Tank::Player;
 
 Tank::Tank()
 {
@@ -96,23 +92,24 @@ void Tank::DrawTank() {
 	glTranslatef(1, 0, -1);
 	glRotatef(90, 0, 1, 0);
 	glColor3f(0.0, 0.0, 0.0);
-	// The index in cubeIndices array
-	// points to next vertex to draw.
+
 	int index = 0;
-	// Draw the cube quad by quad
-	for (int qd = 0; qd < 12; qd++) {
+
+	for (int qd = 0; qd < 12; qd++) { //Draw Bottom of Tank
 		glBegin(GL_QUADS);
 		glColor3f(tankColors[qd][0], tankColors[qd][1],
 			tankColors[qd][2]);
-		for (int v = 0; v < 4; v++) {// Four vertices for one quad
+		for (int v = 0; v < 4; v++) { //Draw Top of Tank
 			glVertex3f(tankVertices[tankIndices[index]][0],
 				tankVertices[tankIndices[index]][1],
 				tankVertices[tankIndices[index]][2]);
-			index++; // Move to next vertex in quad
+			index++;
 		}
 		glEnd();
 	}
 	glPopMatrix();
+
+	//Draw Barrel of Tank
 	glRotatef(180, 0, 1, 0);
 
 	glColor3f(0, 1, 0);
@@ -125,7 +122,7 @@ void Tank::DrawTank() {
 	glPopMatrix();
 }
 
-void Tank::HandleKeyDown(WPARAM wParam)
+void Tank::HandleKeyDown(double deltaTime)
 {
 	glPushMatrix();
 
@@ -140,11 +137,11 @@ void Tank::HandleKeyDown(WPARAM wParam)
 	}
 	if (GetAsyncKeyState(VK_W))
 	{
-		MoveForward(0.1);
+		MoveForward(2 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_S))
 	{
-		MoveForward(-0.1);
+		MoveForward(-2 * deltaTime);
 	}
 	
 	//Barrel Movement
@@ -159,10 +156,18 @@ void Tank::HandleKeyDown(WPARAM wParam)
 	if (GetAsyncKeyState(VK_UP))
 	{
 		xRotBarrel -= 1;
+		if (xRotBarrel < -45)
+		{
+			xRotBarrel = -45;
+		}
 	}
 	if (GetAsyncKeyState(VK_DOWN))
 	{
 		xRotBarrel += 1;
+		if (xRotBarrel > 0)
+		{
+			xRotBarrel = 0;
+		}
 	}
 
 	glPopMatrix();
@@ -190,6 +195,15 @@ void Tank::Rotate(double angle)
 {
 	// Update the rotation (yaw)
 	yRot = yRot + angle;
+}
+
+void Tank::UpwardVector(double dist)
+{
+	double deltaY = 0;
+
+	deltaY = -dist*sin(degToRad(xRot));
+
+	yPos = yPos + deltaY;
 }
 
 Tank::~Tank()

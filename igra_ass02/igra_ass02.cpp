@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "igra_ass02.h"
 #include "Tank.h"
+#include "Firing.h"
 #include <gl\gl.h>
 #include <gl\glu.h>
 #include <math.h>
@@ -29,7 +30,17 @@ int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
 int rotateDeg = 1;
 
-Tank *tank = new Tank();
+Tank tank;
+
+__int64 startTimeInCounts = 0;
+__int64 lastTimeInCounts = 0;
+__int64 countsPerSecond;
+
+double deltaTime;
+
+void StartTimer();
+double GetTimePassedSinceLastTime();
+double GetTimePassedSinceStart();
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -155,6 +166,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
    ReSizeGLScene(width, height);
+   StartTimer();
+   Tank::Player = tank;
    return TRUE;
 }
 
@@ -197,10 +210,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             EndPaint(hWnd, &ps);
         }
 	case WM_KEYDOWN:
-		tank->HandleKeyDown(wParam);
+	{
+		
+		Firing::HandleKeyDown();
 		keys[wParam] = TRUE;
 
 		break;
+	}
 	case WM_KEYUP:
 		keys[wParam] = FALSE;
 		break;
@@ -304,7 +320,44 @@ void Draw3D_AxisSystem() {
 	glEnd();
 }
 
+void StartTimer() {
+	__int64 currentTimeInCounts;
+	// countsPerSecond depends on your PC
+	if (!QueryPerformanceFrequency(
+		(LARGE_INTEGER *)&countsPerSecond)) {
+		MessageBox(NULL, L"QueryPerformanceFrequency Failed.",L"ERROR",MB_OK | MB_ICONINFORMATION);
+			return;
+	}
+	QueryPerformanceCounter(
+		(LARGE_INTEGER *)&currentTimeInCounts);
+	startTimeInCounts = currentTimeInCounts;
+	lastTimeInCounts = currentTimeInCounts;
+}double GetTimePassedSinceStart() {
+	__int64 currentTimeInCounts;
+	double timePassedSeconds;
+	// Calculate time passed in seconds since timer was started
+	QueryPerformanceCounter((LARGE_INTEGER *)&currentTimeInCounts);
+	timePassedSeconds = (currentTimeInCounts - startTimeInCounts) /
+		(double)countsPerSecond;
+
+	return timePassedSeconds;
+}double GetTimePassedSinceLastTime() {
+	__int64 currentTimeInCounts, timePassedSinceLastTimeInCounts;
+	// Calculate time passed in seconds since last call to
+	// GetTimePassedSinceLastTime
+	QueryPerformanceCounter((LARGE_INTEGER *)&currentTimeInCounts);
+	timePassedSinceLastTimeInCounts =
+		currentTimeInCounts - lastTimeInCounts;
+	double timePassedSinceLastTimeInSeconds =
+		(currentTimeInCounts - lastTimeInCounts) /
+		(double)countsPerSecond;
+	lastTimeInCounts = currentTimeInCounts;
+	return timePassedSinceLastTimeInSeconds;
+}
+
 void DrawGLScene() {
+	tank.HandleKeyDown(deltaTime);
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1, 1, 1, 1);
 	glMatrixMode(GL_MODELVIEW);
@@ -316,11 +369,16 @@ void DrawGLScene() {
 				0, 1, 0);
 	
 	Draw3D_AxisSystem();
+	
+	deltaTime = GetTimePassedSinceLastTime();
 
-	glPushMatrix();
 	glTranslatef(1, 1, 2);
 	glRotatef(-90, 0, 1, 0);
-	tank->DrawTank();
-	glPopMatrix();
+	tank.DrawTank();
+	for (int i = 0; i < Firing::shell.size(); i++)
+	{
+		Firing::shell[i]->Update(deltaTime);
+		Firing::shell[i]->DrawProjectile();
+	}
 }
 
