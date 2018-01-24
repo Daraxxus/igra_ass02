@@ -1,3 +1,7 @@
-﻿  igra_ass02.cpp
-c:\users\asus\igra_ass02\igra_ass02\igra_ass02.cpp(378): warning C4018: '<': signed/unsigned mismatch
-  igra_ass02.vcxproj -> C:\Users\Asus\igra_ass02\Debug\igra_ass02.exe
+﻿  Firing.cpp
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\firing.cpp(15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\firing.cpp(51): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\firing.cpp(53): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\firing.cpp(59): warning C4018: '<': signed/unsigned mismatch
+  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.exe
+  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.pdb (Partial PDB)

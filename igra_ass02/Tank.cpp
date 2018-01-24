@@ -73,16 +73,7 @@ float tankColors[][3] = {
 };
 
 void Tank::DrawTank() {
-	float angularStep = 360.0 / 36;
-	float x, y = 0;
-	double pi = 3.1415926535;
-	
-	
 	glPushMatrix();
-	float hl = 2 * 0.5f;
-	float a = 0.0f;
-	float step = (float)3.1415926535 / (float)180;
-	
 	glTranslatef(xPos, yPos, zPos);
 	glRotatef(yRot, 0, 1, 0);
 	glGetFloatv(GL_MODELVIEW, transform);
@@ -95,11 +86,11 @@ void Tank::DrawTank() {
 
 	int index = 0;
 
-	for (int qd = 0; qd < 12; qd++) { //Draw Bottom of Tank
+	for (int qd = 0; qd < 12; qd++) {
 		glBegin(GL_QUADS);
 		glColor3f(tankColors[qd][0], tankColors[qd][1],
 			tankColors[qd][2]);
-		for (int v = 0; v < 4; v++) { //Draw Top of Tank
+		for (int v = 0; v < 4; v++) { 
 			glVertex3f(tankVertices[tankIndices[index]][0],
 				tankVertices[tankIndices[index]][1],
 				tankVertices[tankIndices[index]][2]);
@@ -129,11 +120,11 @@ void Tank::HandleKeyDown(double deltaTime)
 	//Tank Movement
 	if (GetAsyncKeyState(VK_A))
 	{
-		Rotate(5);
+		Rotate(20 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_D))
 	{
-		Rotate(-5);
+		Rotate(-20 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_W))
 	{
@@ -204,6 +195,11 @@ void Tank::UpwardVector(double dist)
 	deltaY = -dist*sin(degToRad(xRot));
 
 	yPos = yPos + deltaY;
+}
+
+std::vector<float> Tank::ReturnCurrentPosition() {
+	std::vector<float> currentPosRot = { xPos, yPos, zPos, yRot, xRotBarrel, yRotBarrel };
+	return currentPosRot;
 }
 
 Tank::~Tank()

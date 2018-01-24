@@ -1,12 +1,15 @@
 #pragma once
 #include <gl\gl.h>
 #include <gl\glu.h>
+#include <vector>
+
 class Tank
 {
 public:
 	Tank();
 	void DrawTank();
 	void HandleKeyDown(double deltaTime);
+	std::vector<float> ReturnCurrentPosition();
 
 	void MoveForward(double dist);
 	void Rotate(double angle);
@@ -24,7 +27,6 @@ public:
 	float xRotBarrel, yRotBarrel;
 
 	static Tank Player;
-
 	~Tank();
 
 private:

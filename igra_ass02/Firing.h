@@ -5,12 +5,12 @@
 class Firing
 {
 public:
-	Firing(float xSPos, float ySPos, float zSPos);
+	Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBarrel, float ySRotBarrel);
 	void DrawProjectile();
 	void CalcTraj();
 
 	void Update(double deltaTime);
-	static void HandleKeyDown();
+	static void HandleKeyDown(std::vector<float> GetPosRot);
 	static std::vector<Firing*> shell;
 
 	~Firing();
@@ -21,10 +21,8 @@ private:
 	float cd;
 	float angleProj;
 
-	float pRotY, pRotZ;
-
 	float xPos, yPos, zPos;
 	float forwardX, forwardY, forwardZ;
-	float yRot, yRotBarrel;
+	float yRot, yRotBarrel, xRotBarrel;
 };
 

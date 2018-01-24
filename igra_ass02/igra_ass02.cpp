@@ -204,15 +204,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_PAINT:
         {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Add any drawing code that uses hdc here...
-            EndPaint(hWnd, &ps);
         }
 	case WM_KEYDOWN:
 	{
-		
-		Firing::HandleKeyDown();
+		if (GetAsyncKeyState(VK_SPACE))
+		{
+			Firing::HandleKeyDown(tank.ReturnCurrentPosition());
+		}
 		keys[wParam] = TRUE;
 
 		break;
@@ -332,7 +330,9 @@ void StartTimer() {
 		(LARGE_INTEGER *)&currentTimeInCounts);
 	startTimeInCounts = currentTimeInCounts;
 	lastTimeInCounts = currentTimeInCounts;
-}double GetTimePassedSinceStart() {
+}
+
+double GetTimePassedSinceStart() {
 	__int64 currentTimeInCounts;
 	double timePassedSeconds;
 	// Calculate time passed in seconds since timer was started
@@ -341,7 +341,9 @@ void StartTimer() {
 		(double)countsPerSecond;
 
 	return timePassedSeconds;
-}double GetTimePassedSinceLastTime() {
+}
+
+double GetTimePassedSinceLastTime() {
 	__int64 currentTimeInCounts, timePassedSinceLastTimeInCounts;
 	// Calculate time passed in seconds since last call to
 	// GetTimePassedSinceLastTime
@@ -372,8 +374,6 @@ void DrawGLScene() {
 	
 	deltaTime = GetTimePassedSinceLastTime();
 
-	glTranslatef(1, 1, 2);
-	glRotatef(-90, 0, 1, 0);
 	tank.DrawTank();
 	for (int i = 0; i < Firing::shell.size(); i++)
 	{

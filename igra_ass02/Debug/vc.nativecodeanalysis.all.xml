@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?><DEFECTS><DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\</FILEPATH>
+      <FILENAME>igra_ass02.cpp</FILENAME>
+      <LINE>184</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>6244</DEFECTCODE>
+    <DESCRIPTION>Local declaration of 'hWnd' hides previous declaration at line '22' of 'c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\igra_ass02.cpp'.</DESCRIPTION>
+    <FUNCTION>WndProc</FUNCTION>
+    <DECORATED>?WndProc@@YGJPAUHWND__@@IIJ@Z</DECORATED>
+    <FUNCLINE>184</FUNCLINE>
+    <PATH>
+      <SFA>
+        <FILEPATH>c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\</FILEPATH>
+        <FILENAME>igra_ass02.cpp</FILENAME>
+        <LINE>22</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+    </PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\</FILEPATH>
+      <FILENAME>igra_ass02.cpp</FILENAME>
+      <LINE>252</LINE>
+      <COLUMN>18</COLUMN>
+    </SFA>
+    <DEFECTCODE>6244</DEFECTCODE>
+    <DESCRIPTION>Local declaration of 'width' hides previous declaration at line '27' of 'c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\igra_ass02.cpp'.</DESCRIPTION>
+    <FUNCTION>ReSizeGLScene</FUNCTION>
+    <DECORATED>?ReSizeGLScene@@YAXHH@Z</DECORATED>
+    <FUNCLINE>252</FUNCLINE>
+    <PATH>
+      <SFA>
+        <FILEPATH>c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\</FILEPATH>
+        <FILENAME>igra_ass02.cpp</FILENAME>
+        <LINE>27</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+    </PATH>
+  </DEFECT></DEFECTS>
