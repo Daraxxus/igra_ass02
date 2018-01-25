@@ -11,17 +11,17 @@ Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBa
 {
 	speed = 10;
 
-	xPos = xSPos;
+	/*xPos = xSPos;
 	yPos = ySPos + 1.5;
 	zPos = zSPos;
-	yRot = ySRot;
+	yRot = ySRot;*/
 	xRotBarrel = xSRotBarrel;
 	yRotBarrel = ySRotBarrel;
 
-	/*float dist = xSPos + 3 * cos(xRotBarrel);
-	yPos = 4 * sin(xRotBarrel);
-	xPos = xSPos + dist * cos(270 - xRotBarrel);
-	zPos = zSPos + dist * sin(270 - xRotBarrel);*/
+	float dist = xSPos + 3 * cos(xRotBarrel);
+	yPos = 3 * sin(xRotBarrel);
+	xPos = xSPos + dist * cos(yRotBarrel);
+	zPos = zSPos + dist * sin(yRotBarrel);
 
 	forwardX = sin(Tank::Player.degToRad(Tank::Player.yRot + Tank::Player.yRotBarrel));
 	//forwardY = sin(Tank::Player.degToRad(Tank::Player.xRotBarrel));
@@ -32,9 +32,9 @@ void Firing::DrawProjectile()
 {
 	glColor3f(1, 0, 0);
 	glPushMatrix();
-	glRotatef(yRot, 0, 1, 0);
+	/*glRotatef(yRot, 0, 1, 0);
 	glRotatef(yRotBarrel, 0, 1, 0);
-	glRotatef(-xRotBarrel, 1, 0, 0);
+	glRotatef(-xRotBarrel, 1, 0, 0);*/
 	glTranslatef(xPos, yPos, zPos);
 
 	gluCylinder(gluNewQuadric(), 0.1, 0.2, 0.5, 32, 32);

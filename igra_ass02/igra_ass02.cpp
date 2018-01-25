@@ -29,6 +29,7 @@ int height = 480;
 int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
 int rotateDeg = 1;
+const unsigned short MSB = 0x8000;
 
 Tank tank;
 
@@ -217,6 +218,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_KEYUP:
 		keys[wParam] = FALSE;
+
 		break;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -358,15 +360,14 @@ double GetTimePassedSinceLastTime() {
 }
 
 void DrawGLScene() {
-	tank.HandleKeyDown(deltaTime);
-	
+	tank.Update(deltaTime);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1, 1, 1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 
-	gluLookAt(	10, 10, 10, 
+	gluLookAt(	20, 20, 20, 
 				0, 0, 0, 
 				0, 1, 0);
 	

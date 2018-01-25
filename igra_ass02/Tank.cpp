@@ -3,57 +3,41 @@
 
 #include <math.h>
 
-#define VK_W 0x57
-#define VK_A 0x41
-#define VK_S 0x53
-#define VK_D 0x44
-
 Tank Tank::Player;
 
 Tank::Tank()
 {
-	width = 3.0f;
-	length = 1.5f;
-	height = 4.0f;
+	xPos = 0;
+	yPos = 0;
+	zPos = 0;
+	maxSpeed = 2;
+	acceleration = 0.01;
+	speed = 0;
+	drag = -0.01;
+	dirX = 0;
+	dirZ = 0;
+	movingW = false;
+	movingS = false;
 }
 
 float tankVertices[][3] = {
-	{ 0, 0, 0 }, //0
-	{ -3, 0, 0 }, //1
-	{ -3, 1, 0 }, //2
-	{ 0, 1, 0 }, //3
-	{ 0, 0, -2 }, //4
-	{ 0, 1, -2 }, //5 
-	{-3, 1, -2 }, //6
-	{ -3, 0, -2 }, //7 //bottom half
-
-	{-0.5, 1, -0.5}, //8
-	{-2.5, 1, -0.5}, //9
-	{-2.5, 2 , -0.5}, //10
-	{-0.5, 2, -0.5}, //11
-
-	{-0.5, 1, -1.5}, //12
-	{-0.5, 2, -1.5}, //13
-
-	{-2.5, 1, -1.5}, //14
-	{-2.5, 2, -1.5}  //15
+	{ 1, 0, 1 }, //0
+	{-1, 0, 1 }, //1
+	{-1, 1, 1 }, //2
+	{ 1, 1, 1 }, //3
+	{ 1, 0, -1 }, //4
+	{ 1, 1, -1 }, //5 
+	{-1, 1, -1 }, //6
+	{-1, 0, -1 }, //7 //bottom half
 };
 
 int tankIndices[] = {
-	0, 1, 2, 3,
-	4, 5, 6, 7,
-	4, 0, 3, 5,
-	2, 1, 7, 6,
-	3, 2, 6, 5,
-	4, 7, 1, 0, //upperhalf
-
-	8, 9, 10, 11,
-	12, 13, 15, 14,
-	12, 8, 11, 13,
-	10, 9, 14, 15,
-	11, 10, 15, 13,
-	12, 14, 9, 8 //bottomhalf
-	
+	0, 1, 2, 3, //left face
+	4, 5, 6, 7, //right face
+	4, 0, 3, 5, //front face
+	2, 1, 7, 6, //back face
+	3, 2, 6, 5, //top face
+	4, 7, 1, 0, //bottom face
 };
 
 float tankColors[][3] = {
@@ -63,13 +47,6 @@ float tankColors[][3] = {
 	1, 1, 0, // Left is Yellow
 	0.5, 0.5, 0.5,
 	0.5, 0.5, 0.5,
-
-	0, 1, 0, // Front is Green
-	1, 0, 0, // Back is Red
-	0, 0, 1, // Right is Blue
-	1, 1, 0, // Left is Yellow
-	0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5
 };
 
 void Tank::DrawTank() {
@@ -77,16 +54,9 @@ void Tank::DrawTank() {
 	glTranslatef(xPos, yPos, zPos);
 	glRotatef(yRot, 0, 1, 0);
 	glGetFloatv(GL_MODELVIEW, transform);
-
-	glPushMatrix();
-	
-	glTranslatef(1, 0, -1);
-	glRotatef(90, 0, 1, 0);
-	glColor3f(0.0, 0.0, 0.0);
-
 	int index = 0;
 
-	for (int qd = 0; qd < 12; qd++) {
+	for (int qd = 0; qd < 6; qd++) {
 		glBegin(GL_QUADS);
 		glColor3f(tankColors[qd][0], tankColors[qd][1],
 			tankColors[qd][2]);
@@ -98,88 +68,152 @@ void Tank::DrawTank() {
 		}
 		glEnd();
 	}
+
+	glColor3f(1, 0, 0);
+	glPushMatrix();
+	glTranslatef(0, 1, 0);
+	GLUquadric *quad;
+	quad = gluNewQuadric();
+	gluSphere(quad, 1, 100, 20);
 	glPopMatrix();
 
 	//Draw Barrel of Tank
-	glRotatef(180, 0, 1, 0);
-
-	glColor3f(0, 1, 0);
+	glColor3f(1, 1, 0);
+	glPushMatrix();
 	glTranslatef(0, 1.5, 0);
 
-	glRotatef(yRotBarrel, 0, 1, 0);	
-	glRotatef(xRotBarrel, 1, 0, 0);
-	gluCylinder(gluNewQuadric(), 0.3, 0.3, 3, 32, 32);
+	glRotatef(xRotBarrel, 0, 1, 0);	
+	glRotatef(yRotBarrel, 1, 0, 0);
+	gluCylinder(gluNewQuadric(), 0.3, 0.3, 2, 32, 32);
+	glPopMatrix();
+	glPopMatrix();
 
+	//FiringPoint 
+	glColor3f(0, 0, 1);
+	glPushMatrix();
+
+	float radYRotBarrel = degToRad(yRotBarrel);
+	float radXRotBarrel = degToRad(xRotBarrel);
+	float radYRot = degToRad(yRot);
+	float dist = zPos + 2 * cos(-radYRotBarrel); 
+	float y = yPos + 1.5 + 2 * sin(-radYRotBarrel);
+
+	float z = zPos + dist * cos(radYRot + radXRotBarrel);
+	float x = xPos + dist * sin(radYRot + radXRotBarrel);
+	
+	/*debug("x: " + to_string(x) + " y: " + to_string(y) + " z: " + to_string(z) + " dist: " + to_string(dist) + " xPos: " + to_string(xPos) + " yPos: " + to_string(yPos) + " zPos: " + to_string(zPos) + " angle: " + to_string(xRotBarrel));*/
+
+	glTranslatef(x, y, z);
+
+	GLUquadric *quadtest;
+	quadtest = gluNewQuadric();
+	gluSphere(quadtest, 0.25, 100, 20);
 	glPopMatrix();
 }
 
+
 void Tank::HandleKeyDown(double deltaTime)
 {
-	glPushMatrix();
-
 	//Tank Movement
 	if (GetAsyncKeyState(VK_A))
 	{
-		Rotate(20 * deltaTime);
+		Rotate(-20 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_D))
 	{
-		Rotate(-20 * deltaTime);
+		Rotate(20 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_W))
 	{
-		MoveForward(2 * deltaTime);
+		movingW = true;
 	}
 	if (GetAsyncKeyState(VK_S))
 	{
-		MoveForward(-2 * deltaTime);
+		movingS = true;
 	}
 	
 	//Barrel Movement
 	if (GetAsyncKeyState(VK_LEFT))
 	{
-		yRotBarrel += 1;
+		xRotBarrel -= 0.1;
 	}
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
-		yRotBarrel -= 1;
+		xRotBarrel += 0.1;
 	}
+
 	if (GetAsyncKeyState(VK_UP))
 	{
-		xRotBarrel -= 1;
-		if (xRotBarrel < -45)
+		yRotBarrel -= 0.1;
+		if (yRotBarrel < -45)
 		{
-			xRotBarrel = -45;
+			yRotBarrel = -45;
 		}
 	}
 	if (GetAsyncKeyState(VK_DOWN))
 	{
-		xRotBarrel += 1;
-		if (xRotBarrel > 0)
+		yRotBarrel += 0.1;
+
+		if (yRotBarrel > 0)
 		{
-			xRotBarrel = 0;
+			yRotBarrel = 0;
+		}
+	}
+}
+
+void Tank::Update(double deltaTime) {
+	HandleKeyDown(deltaTime);
+	if (movingS || movingW) {
+		if (movingW) {
+			MoveForward(acceleration, deltaTime);
+		}
+
+		if (movingS) {
+			MoveForward(-acceleration, deltaTime);
 		}
 	}
 
-	glPopMatrix();
+	if (!GetAsyncKeyState(VK_W) && !GetAsyncKeyState(VK_S)) {
+		if (!GetAsyncKeyState(VK_W)) {
+			movingW = false;
+		}
+
+		if (!GetAsyncKeyState(VK_S)) {
+			movingS = false;
+		}
+		if (speed > 0) {
+			speed += drag * deltaTime;
+			if (speed <= 0) {
+				speed = 0;
+			}
+		}
+		if (speed < 0) {
+			speed -= drag * deltaTime;
+			if (speed >= 0) {
+				speed = 0;
+			}
+		}
+	}
+
+	// Update the position
+	xPos = xPos + speed * dirX;
+	zPos = zPos + speed * dirZ;
+	debug("speed: " + to_string(speed));
 }
 
 float Tank::degToRad(float degAngle) {
-	double pi = 3.1415926535; // You could be more precise! 
+	double pi = 3.1415926535;
 	return degAngle / 180.0 * pi;
 }
 
-void Tank::MoveForward(double dist)
+void Tank::MoveForward(float acceleration, double deltaTime)
 {
-	// Movement must be based on orientation of player
-	double deltaX = 0;
-	double deltaZ = 0;
-	// Calculate translation as based on current yRotation angle
-	deltaX = -dist*sin(degToRad(yRot));
-	deltaZ = -dist*cos(degToRad(yRot));
-	// Update the position
-	xPos = xPos + deltaX;
-	zPos = zPos + deltaZ;
+	// Calculate direction as based on current yRotation angle
+	dirX = sin(degToRad(yRot));
+	dirZ = cos(degToRad(yRot));
+	if (fabsf(speed) < maxSpeed) {
+		speed += acceleration * deltaTime;
+	}
 }
 
 void Tank::Rotate(double angle)
