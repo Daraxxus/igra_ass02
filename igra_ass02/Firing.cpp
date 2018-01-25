@@ -9,34 +9,32 @@ std::vector<Firing*> Firing::shell;
 
 Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBarrel, float ySRotBarrel)
 {
-	speed = 10;
-
-	/*xPos = xSPos;
-	yPos = ySPos + 1.5;
-	zPos = zSPos;
-	yRot = ySRot;*/
+	speed = 20;
 	xRotBarrel = xSRotBarrel;
 	yRotBarrel = ySRotBarrel;
+	yRot = ySRot;
 
-	float dist = xSPos + 3 * cos(xRotBarrel);
-	yPos = 3 * sin(xRotBarrel);
-	xPos = xSPos + dist * cos(yRotBarrel);
-	zPos = zSPos + dist * sin(yRotBarrel);
+	float radYRotBarrel = yRotBarrel * 3.14159 / 180;
+	float radXRotBarrel = xRotBarrel * 3.14159 / 180;
+	float radYRot = yRot * 3.14159 / 180;
 
-	forwardX = sin(Tank::Player.degToRad(Tank::Player.yRot + Tank::Player.yRotBarrel));
-	//forwardY = sin(Tank::Player.degToRad(Tank::Player.xRotBarrel));
-	forwardZ = -cos(Tank::Player.degToRad(Tank::Player.yRot + Tank::Player.yRotBarrel));
+	float dist = 2 * cos(-radYRotBarrel);
+	yPos = ySPos + 1.5 + 2 * sin(-radYRotBarrel);
+	zPos = zSPos + dist * cos(radYRot + radXRotBarrel);
+	xPos = xSPos + dist * sin(radYRot + radXRotBarrel);
+
+	forwardX = sin((yRot + xRotBarrel) * 3.14159 / 180);
+	forwardZ = cos((yRot + xRotBarrel) * 3.14159 / 180);
 }
 
 void Firing::DrawProjectile()
 {
-	glColor3f(1, 0, 0);
+	//FiringPoint 
+	glColor3f(0, 0, 1);
 	glPushMatrix();
-	/*glRotatef(yRot, 0, 1, 0);
-	glRotatef(yRotBarrel, 0, 1, 0);
-	glRotatef(-xRotBarrel, 1, 0, 0);*/
 	glTranslatef(xPos, yPos, zPos);
-
+	glRotatef(180 + yRot + xRotBarrel, 0, 1, 0);
+	glRotatef(-yRotBarrel, 1, 0, 1);
 	gluCylinder(gluNewQuadric(), 0.1, 0.2, 0.5, 32, 32);
 	glPopMatrix();
 }
@@ -49,8 +47,8 @@ void Firing::CalcTraj()
 void Firing::Update(double deltaTime)
 {
 	xPos += forwardX * speed * deltaTime;
-	//yPos = speed * forwardY * deltaTime - 0.5 * 9.81 * deltaTime * deltaTime;
 	zPos += forwardZ * speed * deltaTime;
+	yPos += (speed * sin(yRotBarrel * 3.14159 / 180) * deltaTime - 0.5 * 9.81 * deltaTime);
 }
 
 void Firing::HandleKeyDown(std::vector<float> GetPosRot)

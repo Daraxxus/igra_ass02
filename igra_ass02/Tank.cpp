@@ -88,27 +88,25 @@ void Tank::DrawTank() {
 	glPopMatrix();
 	glPopMatrix();
 
-	//FiringPoint 
-	glColor3f(0, 0, 1);
-	glPushMatrix();
+	////FiringPoint 
+	//glColor3f(0, 0, 1);
+	//glPushMatrix();
 
-	float radYRotBarrel = degToRad(yRotBarrel);
-	float radXRotBarrel = degToRad(xRotBarrel);
-	float radYRot = degToRad(yRot);
-	float dist = zPos + 2 * cos(-radYRotBarrel); 
-	float y = yPos + 1.5 + 2 * sin(-radYRotBarrel);
+	//float radYRotBarrel = degToRad(yRotBarrel);
+	//float radXRotBarrel = degToRad(xRotBarrel);
+	//float radYRot = degToRad(yRot);
 
-	float z = zPos + dist * cos(radYRot + radXRotBarrel);
-	float x = xPos + dist * sin(radYRot + radXRotBarrel);
-	
-	/*debug("x: " + to_string(x) + " y: " + to_string(y) + " z: " + to_string(z) + " dist: " + to_string(dist) + " xPos: " + to_string(xPos) + " yPos: " + to_string(yPos) + " zPos: " + to_string(zPos) + " angle: " + to_string(xRotBarrel));*/
+	//float dist = 2 * cos(-radYRotBarrel); 
+	//float y = yPos + 1.5 + 2 * sin(-radYRotBarrel);
+	//float z = zPos + dist * cos(radYRot + radXRotBarrel);
+	//float x = xPos + dist * sin(radYRot + radXRotBarrel);
 
-	glTranslatef(x, y, z);
+	//glTranslatef(x, y, z);
 
-	GLUquadric *quadtest;
-	quadtest = gluNewQuadric();
-	gluSphere(quadtest, 0.25, 100, 20);
-	glPopMatrix();
+	//GLUquadric *quadtest;
+	//quadtest = gluNewQuadric();
+	//gluSphere(quadtest, 0.25, 100, 20);
+	//glPopMatrix();
 }
 
 
@@ -117,11 +115,11 @@ void Tank::HandleKeyDown(double deltaTime)
 	//Tank Movement
 	if (GetAsyncKeyState(VK_A))
 	{
-		Rotate(-20 * deltaTime);
+		Rotate(-25 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_D))
 	{
-		Rotate(20 * deltaTime);
+		Rotate(25 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_W))
 	{
@@ -198,7 +196,6 @@ void Tank::Update(double deltaTime) {
 	// Update the position
 	xPos = xPos + speed * dirX;
 	zPos = zPos + speed * dirZ;
-	debug("speed: " + to_string(speed));
 }
 
 float Tank::degToRad(float degAngle) {

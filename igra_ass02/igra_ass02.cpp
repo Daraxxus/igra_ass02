@@ -367,7 +367,7 @@ void DrawGLScene() {
 	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 
-	gluLookAt(	20, 20, 20, 
+	gluLookAt(	10, 10, 10, 
 				0, 0, 0, 
 				0, 1, 0);
 	
