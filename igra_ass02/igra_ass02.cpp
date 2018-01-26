@@ -29,7 +29,7 @@ int height = 480;
 int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
 int rotateDeg = 1;
-const unsigned short MSB = 0x8000;
+bool fired = false;
 
 Tank tank;
 
@@ -210,7 +210,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			Firing::HandleKeyDown(tank.ReturnCurrentPosition());
+			if (!fired) {
+				Firing::HandleKeyDown(tank.ReturnCurrentPosition());
+				fired = true;
+			}
 		}
 		keys[wParam] = TRUE;
 

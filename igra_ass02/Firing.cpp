@@ -16,6 +16,10 @@ Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBa
 	xRotBarrel = xSRotBarrel;
 	yRotBarrel = ySRotBarrel;
 	yRot = ySRot;
+	bulletRotation = -yRotBarrel;
+	deltaBulletRotation = 0;
+	originalRotation = ySRotBarrel;
+	originalY = ySPos;
 
 	float radYRotBarrel = yRotBarrel * 3.14159 / 180;
 	float radXRotBarrel = xRotBarrel * 3.14159 / 180;
@@ -26,8 +30,7 @@ Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBa
 	zPos = zSPos + dist * cos(radYRot + radXRotBarrel);
 	xPos = xSPos + dist * sin(radYRot + radXRotBarrel);
 
-	//forwardX = sin(radYRot + radXRotBarrel);
-	//forwardZ = cos(radYRot + radXRotBarrel);
+	maxHeightCurve = ((speed * speed) * (sin(-radYRotBarrel) * sin(-radYRotBarrel))) / -2 * gravity;
 
 	forwardX = sin(radYRot + radXRotBarrel) * speed;
 	forwardZ = cos(radYRot + radXRotBarrel) * speed;
@@ -43,14 +46,15 @@ void Firing::DrawProjectile()
 	glPushMatrix();
 	glTranslatef(xPos, yPos, zPos); //move the bullet to location
 	glRotatef(180 + yRot + xRotBarrel, 0, 1, 0); //rotate bullet based on where barrel is pointing
-	glRotatef(-yRotBarrel, 1, 0, 1); //rotate bullet based on angle of barrel
+	glRotatef(bulletRotation, 1, 0, 0); //rotate bullet based on angle of barrel and trajectory
 	gluCylinder(gluNewQuadric(), 0.1, 0.2, 0.4, 32, 32);
 	glPopMatrix();
 }
 
-void Firing::CalcTraj()
+void Firing::CalcAngleChange()
 {
-
+	float changeInY = maxHeightCurve - originalY;
+	deltaBulletRotation = 90 / changeInY;
 }
 
 
@@ -60,6 +64,7 @@ void Firing::Update(double deltaTime)
 	z = power * cos(elevation) * cos(azimuth);
 	y = power * sin(elevation);*/
 
+	CalcAngleChange();
 	if (yPos < 0) {
 		yPos = 0;
 	}
@@ -69,6 +74,7 @@ void Firing::Update(double deltaTime)
 		xPos += forwardX * deltaTime;
 		zPos += forwardZ * deltaTime;
 		yPos += yVel * deltaTime;
+		bulletRotation += deltaBulletRotation;
 	}
 }
 
