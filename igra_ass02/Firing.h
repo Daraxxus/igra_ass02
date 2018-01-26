@@ -24,5 +24,7 @@ private:
 	float xPos, yPos, zPos;
 	float forwardX, forwardY, forwardZ;
 	float yRot, yRotBarrel, xRotBarrel;
+
+	float yVel;
 };
 

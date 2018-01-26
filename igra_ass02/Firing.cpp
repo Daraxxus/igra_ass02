@@ -9,8 +9,9 @@ std::vector<Firing*> Firing::shell;
 
 Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBarrel, float ySRotBarrel)
 {
-	speed = 1;
+	speed = 5;
 	gravity = -9.81; 
+	yVel = 0;
 
 	xRotBarrel = xSRotBarrel;
 	yRotBarrel = ySRotBarrel;
@@ -25,9 +26,14 @@ Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBa
 	zPos = zSPos + dist * cos(radYRot + radXRotBarrel);
 	xPos = xSPos + dist * sin(radYRot + radXRotBarrel);
 
-	forwardX = sin(radYRot + radXRotBarrel) * cos(-radYRotBarrel);
-	forwardZ = cos(radYRot + radXRotBarrel) *  cos(-radYRotBarrel);
-	forwardY = sin(-radYRotBarrel);
+	//forwardX = sin(radYRot + radXRotBarrel);
+	//forwardZ = cos(radYRot + radXRotBarrel);
+
+	forwardX = sin(radYRot + radXRotBarrel) * speed;
+	forwardZ = cos(radYRot + radXRotBarrel) * speed;
+	forwardY = sin(-radYRotBarrel) * speed;
+
+	yVel = forwardY;
 }
 
 void Firing::DrawProjectile()
@@ -47,6 +53,7 @@ void Firing::CalcTraj()
 
 }
 
+
 void Firing::Update(double deltaTime)
 {
 	/*x = power * cos(elevation) * sin(azimuth);
@@ -57,12 +64,11 @@ void Firing::Update(double deltaTime)
 		yPos = 0;
 	}
 	if (yPos != 0) {
-		float GravitationalPull = gravity * deltaTime * deltaTime;
-		xPos += forwardX * speed * deltaTime;
-		zPos += forwardZ * speed * deltaTime;
-		yPos += forwardY * speed * deltaTime + GravitationalPull * 2; //too slow
-		//yPos += forwardY * speed / 4 * deltaTime - 9.81 * deltaTime * deltaTime;
-		debug("rate of yPos increase: " + to_string(forwardY * speed * deltaTime) + " gravity: " + to_string(GravitationalPull * 2));
+		yVel += gravity * deltaTime;
+		
+		xPos += forwardX * deltaTime;
+		zPos += forwardZ * deltaTime;
+		yPos += yVel * deltaTime;
 	}
 }
 
