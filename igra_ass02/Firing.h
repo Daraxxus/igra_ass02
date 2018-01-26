@@ -17,7 +17,7 @@ public:
 private:
 	bool isFired;
 
-	float speed;
+	float speed, gravity;
 	float cd;
 	float angleProj;
 

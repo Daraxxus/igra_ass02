@@ -9,7 +9,9 @@ std::vector<Firing*> Firing::shell;
 
 Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBarrel, float ySRotBarrel)
 {
-	speed = 20;
+	speed = 1;
+	gravity = -9.81; 
+
 	xRotBarrel = xSRotBarrel;
 	yRotBarrel = ySRotBarrel;
 	yRot = ySRot;
@@ -23,8 +25,9 @@ Firing::Firing(float xSPos, float ySPos, float zSPos, float ySRot, float xSRotBa
 	zPos = zSPos + dist * cos(radYRot + radXRotBarrel);
 	xPos = xSPos + dist * sin(radYRot + radXRotBarrel);
 
-	forwardX = sin((yRot + xRotBarrel) * 3.14159 / 180);
-	forwardZ = cos((yRot + xRotBarrel) * 3.14159 / 180);
+	forwardX = sin(radYRot + radXRotBarrel) * cos(-radYRotBarrel);
+	forwardZ = cos(radYRot + radXRotBarrel) *  cos(-radYRotBarrel);
+	forwardY = sin(-radYRotBarrel);
 }
 
 void Firing::DrawProjectile()
@@ -32,10 +35,10 @@ void Firing::DrawProjectile()
 	//FiringPoint 
 	glColor3f(0, 0, 1);
 	glPushMatrix();
-	glTranslatef(xPos, yPos, zPos);
-	glRotatef(180 + yRot + xRotBarrel, 0, 1, 0);
-	glRotatef(-yRotBarrel, 1, 0, 1);
-	gluCylinder(gluNewQuadric(), 0.1, 0.2, 0.5, 32, 32);
+	glTranslatef(xPos, yPos, zPos); //move the bullet to location
+	glRotatef(180 + yRot + xRotBarrel, 0, 1, 0); //rotate bullet based on where barrel is pointing
+	glRotatef(-yRotBarrel, 1, 0, 1); //rotate bullet based on angle of barrel
+	gluCylinder(gluNewQuadric(), 0.1, 0.2, 0.4, 32, 32);
 	glPopMatrix();
 }
 
@@ -46,9 +49,21 @@ void Firing::CalcTraj()
 
 void Firing::Update(double deltaTime)
 {
-	xPos += forwardX * speed * deltaTime;
-	zPos += forwardZ * speed * deltaTime;
-	yPos += (speed * sin(yRotBarrel * 3.14159 / 180) * deltaTime - 0.5 * 9.81 * deltaTime);
+	/*x = power * cos(elevation) * sin(azimuth);
+	z = power * cos(elevation) * cos(azimuth);
+	y = power * sin(elevation);*/
+
+	if (yPos < 0) {
+		yPos = 0;
+	}
+	if (yPos != 0) {
+		float GravitationalPull = gravity * deltaTime * deltaTime;
+		xPos += forwardX * speed * deltaTime;
+		zPos += forwardZ * speed * deltaTime;
+		yPos += forwardY * speed * deltaTime + GravitationalPull * 2; //too slow
+		//yPos += forwardY * speed / 4 * deltaTime - 9.81 * deltaTime * deltaTime;
+		debug("rate of yPos increase: " + to_string(forwardY * speed * deltaTime) + " gravity: " + to_string(GravitationalPull * 2));
+	}
 }
 
 void Firing::HandleKeyDown(std::vector<float> GetPosRot)
