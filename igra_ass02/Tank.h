@@ -34,6 +34,18 @@ public:
 	double dirX;
 	double dirZ;
 
+	void SetThisMaterial(Material *m);
+
+	void CalculateNoramal(float x1, float y1, float z1,
+		float x2, float y2, float z2,
+		float x3, float y3, float z3,
+		float &normalX, float &normalY, float &normalZ);
+	void FindMidPoint(float x1, float y1, float z1,
+		float x2, float y2, float z2,
+		float x3, float y3, float z3,
+		float &midpointX, float &midpointY, float &midpointZ);
+	void Normalize(float b4NormalX, float b4NormalY, float b4NormalZ, float &_normalX, float &_normalY, float &_normalZ);
+
 	static Tank Player;
 	~Tank();
 

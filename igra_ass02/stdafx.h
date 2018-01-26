@@ -18,6 +18,9 @@
 #include <tchar.h>
 #include <string>
 
+#include <gl\GL.h>
+#include <gl\GLU.h>
+
 using namespace std;
 static void debug(std::string log)
 {
@@ -39,5 +42,12 @@ static void debug(char a[], std::string log)
 	OutputDebugStringA(log.c_str());
 	OutputDebugStringA("\n");
 }
+
+typedef struct materialStruct {
+	GLfloat ambient[4];
+	GLfloat diffuse[4];
+	GLfloat specular[4];
+	GLfloat shininess[4];
+} Material;
 
 // TODO: reference additional headers your program requires here

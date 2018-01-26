@@ -42,6 +42,7 @@ double deltaTime;
 void StartTimer();
 double GetTimePassedSinceLastTime();
 double GetTimePassedSinceStart();
+void SetupLight();
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -210,10 +211,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			if (!fired) {
+			//if (!fired) {
 				Firing::HandleKeyDown(tank.ReturnCurrentPosition());
-				fired = true;
-			}
+				//fired = true;
+			//}
 		}
 		keys[wParam] = TRUE;
 
@@ -303,6 +304,8 @@ int InitOpenGL() {
 		MessageBox(NULL, L"Can't Activate The GL RenderingContext.", L"ERROR", MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
+	SetupLight();
+	StartTimer();
 	return 1;
 }
 
@@ -362,6 +365,30 @@ double GetTimePassedSinceLastTime() {
 	return timePassedSinceLastTimeInSeconds;
 }
 
+void SetupLight() {
+	glShadeModel(GL_SMOOTH);
+	GLfloat LightAmbient[] = { 0.5, 0.5, 0.5, 1 };
+	GLfloat LightDiffuse[] = { 0.5, 0.5, 0.5, 1 };
+	GLfloat LightSpecular[] = { 0.5, 0.5, 0.5, 1 };
+	GLfloat LightPosition[] = { 10, 10, 10, 0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, LightAmbient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, LightSpecular);
+	glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
+	glEnable(GL_LIGHT0);
+}
+
+void DrawTerrain()
+{
+	glBegin(GL_QUADS);
+	glColor3f(0.5, 1, 1);
+	glVertex3f(-100, 0, 100);
+	glVertex3f(-100, 0, -100);
+	glVertex3f(100, 0, -100);
+	glVertex3f(100, 0, 100);
+	glEnd();
+}
+
 void DrawGLScene() {
 	tank.Update(deltaTime);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -370,11 +397,12 @@ void DrawGLScene() {
 	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 
-	gluLookAt(	10, 10, 10, 
-				0, 0, 0, 
-				0, 1, 0);
+	gluLookAt(10, 10, 10,
+		0, 0, 0,
+		0, 1, 0);
 	
 	Draw3D_AxisSystem();
+	DrawTerrain();
 	
 	deltaTime = GetTimePassedSinceLastTime();
 

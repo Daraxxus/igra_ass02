@@ -5,6 +5,8 @@
 
 Tank Tank::Player;
 
+
+
 Tank::Tank()
 {
 	xPos = 0;
@@ -18,6 +20,39 @@ Tank::Tank()
 	dirZ = 0;
 	movingW = false;
 	movingS = false;
+}
+
+void Tank::CalculateNoramal(float x1, float y1, float z1,
+	float x2, float y2, float z2,
+	float x3, float y3, float z3,
+	float &normalX, float &normalY, float &normalZ)
+{
+	float tempX, tempY, tempZ;
+
+	tempX = y1 * (z2 - z3) + y2 * (z3 - z1) + y3 * (z1 - z2);
+	tempY = z1 * (x2 - x3) + z2 * (x3 - x1) + z3 * (x1 - x2);
+	tempZ = x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2);
+
+	Normalize(tempX, tempY, tempZ, normalX, normalY, normalZ);
+}
+
+void Tank::FindMidPoint(float x1, float y1, float z1,
+	float x2, float y2, float z2,
+	float x3, float y3, float z3,
+	float &midpointX, float &midpointY, float &midpointZ)
+{
+
+	midpointX = (x1 + x2 + x3) / 3;
+	midpointY = (y1 + y2 + y3) / 3;
+	midpointZ = (z1 + z2 + z3) / 3;
+}
+
+void Tank::Normalize(float b4NormalX, float b4NormalY, float b4NormalZ, float &_normalX, float &_normalY, float &_normalZ)
+{
+	float vectorLength = sqrtf(powf(b4NormalX, 2) + powf(b4NormalY, 2) + powf(b4NormalZ, 2));
+	_normalX = b4NormalX / vectorLength;
+	_normalY = b4NormalY / vectorLength;
+	_normalZ = b4NormalZ / vectorLength;
 }
 
 float tankVertices[][3] = {
@@ -50,26 +85,70 @@ float tankColors[][3] = {
 };
 
 void Tank::DrawTank() {
+	glEnable(GL_LIGHTING);
+
+	Material redMaterial =
+	{
+		{ 0.7, 0.0, 0.0, 1.0 }, // Ambient
+		{ 0.7, 0.0, 0.0, 1.0 }, // Diffuse
+		{ 0.8, 0.8, 0.8, 1.0 }, // Specular
+		32 // Shininess
+	};
+
+	Material blueMaterial = 
+	{
+		{ 0.0, 0.0, 0.7, 1.0 }, // Ambient
+		{ 0.0, 0.0, 0.9, 1.0 }, // Diffuse
+		{ 0.8, 0.8, 0.8, 1.0 }, // Specular
+		32 // Shininess
+	};
+
+	Material blackMaterial = 
+	{
+		{ 0.0, 0.0, 0.0, 1.0 }, // Ambient
+		{ 0.0, 0.0, 0.0, 1.0 }, // Diffuse
+		{ 0.8, 0.8, 0.8, 1.0 }, // Specular
+		32 // Shininess
+	};
+
+	float currentNormalX;
+	float currentNormalY;
+	float currentNormalZ;
+
+	float currentMidPointX;
+	float currentMidPointY;
+	float currentMidPointZ;
+
 	glPushMatrix();
 	glTranslatef(xPos, yPos, zPos);
 	glRotatef(yRot, 0, 1, 0);
-	glGetFloatv(GL_MODELVIEW, transform);
 	int index = 0;
+	float tempArray[3][3];
+	int tempIndex = 0;
 
+	SetThisMaterial(&blueMaterial);
 	for (int qd = 0; qd < 6; qd++) {
 		glBegin(GL_QUADS);
-		glColor3f(tankColors[qd][0], tankColors[qd][1],
-			tankColors[qd][2]);
+		/*glColor3f(tankColors[qd][0], tankColors[qd][1],
+			tankColors[qd][2]);*/
 		for (int v = 0; v < 4; v++) { 
 			glVertex3f(tankVertices[tankIndices[index]][0],
 				tankVertices[tankIndices[index]][1],
 				tankVertices[tankIndices[index]][2]);
 			index++;
 		}
+		CalculateNoramal(tempArray[0][0], tempArray[0][1], tempArray[0][2],
+			tempArray[1][0], tempArray[1][1], tempArray[1][2],
+			tempArray[2][0], tempArray[2][1], tempArray[2][2],
+			currentNormalX, currentNormalY, currentNormalZ);
+
+		glNormal3f(-currentNormalX, -currentNormalY, -currentNormalZ);
 		glEnd();
 	}
 
-	glColor3f(1, 0, 0);
+
+	SetThisMaterial(&redMaterial);
+	/*glColor3f(1, 0, 0);*/
 	glPushMatrix();
 	glTranslatef(0, 1, 0);
 	GLUquadric *quad;
@@ -78,7 +157,8 @@ void Tank::DrawTank() {
 	glPopMatrix();
 
 	//Draw Barrel of Tank
-	glColor3f(1, 1, 0);
+	/*glColor3f(1, 1, 0);*/
+	SetThisMaterial(&blackMaterial);
 	glPushMatrix();
 	glTranslatef(0, 1.5, 0);
 
@@ -107,6 +187,7 @@ void Tank::DrawTank() {
 	//quadtest = gluNewQuadric();
 	//gluSphere(quadtest, 0.25, 100, 20);
 	//glPopMatrix();
+	glDisable(GL_LIGHTING);
 }
 
 
@@ -115,11 +196,11 @@ void Tank::HandleKeyDown(double deltaTime)
 	//Tank Movement
 	if (GetAsyncKeyState(VK_A))
 	{
-		Rotate(-25 * deltaTime);
+		Rotate(25 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_D))
 	{
-		Rotate(25 * deltaTime);
+		Rotate(-25 * deltaTime);
 	}
 	if (GetAsyncKeyState(VK_W))
 	{
@@ -133,11 +214,11 @@ void Tank::HandleKeyDown(double deltaTime)
 	//Barrel Movement
 	if (GetAsyncKeyState(VK_LEFT))
 	{
-		xRotBarrel -= 0.1;
+		xRotBarrel += 0.5;
 	}
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
-		xRotBarrel += 0.1;
+		xRotBarrel -= 0.5;
 	}
 
 	if (GetAsyncKeyState(VK_UP))
@@ -231,6 +312,14 @@ void Tank::UpwardVector(double dist)
 std::vector<float> Tank::ReturnCurrentPosition() {
 	std::vector<float> currentPosRot = { xPos, yPos, zPos, yRot, xRotBarrel, yRotBarrel };
 	return currentPosRot;
+}
+
+void Tank::SetThisMaterial(Material *m)
+{
+	glMaterialfv(GL_FRONT, GL_AMBIENT, m->ambient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, m->diffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, m->specular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, m->shininess);
 }
 
 Tank::~Tank()

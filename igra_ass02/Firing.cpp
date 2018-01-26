@@ -64,7 +64,7 @@ void Firing::Update(double deltaTime)
 	z = power * cos(elevation) * cos(azimuth);
 	y = power * sin(elevation);*/
 
-	CalcAngleChange();
+	//CalcAngleChange();
 	if (yPos < 0) {
 		yPos = 0;
 	}
