@@ -30,7 +30,8 @@ int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
 int rotateDeg = 1;
 bool fired = false;
-int cd = 0.5;
+double cd = 1.00 ;
+int maxProj = 10;
 
 Tank tank;
 
@@ -212,9 +213,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			if (!fired && (deltaTime > cd)) {
+			for (int i = 0; i < maxProj; i++)
+			if (!fired && (deltaTime < cd)) {
 				Firing::HandleKeyDown(tank.ReturnCurrentPosition());
 				fired = true;
+				deltaTime = 0;
 			}
 		}
 		keys[wParam] = TRUE;
@@ -222,7 +225,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	case WM_KEYUP:
-		if (fired) {
+		if (fired && (deltaTime < cd)) {
 			fired = false;
 		}
 		keys[wParam] = FALSE;
