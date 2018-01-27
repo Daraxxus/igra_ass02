@@ -30,6 +30,7 @@ int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
 int rotateDeg = 1;
 bool fired = false;
+int cd = 0.5;
 
 Tank tank;
 
@@ -211,16 +212,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			//if (!fired) {
+			if (!fired && (deltaTime > cd)) {
 				Firing::HandleKeyDown(tank.ReturnCurrentPosition());
-				//fired = true;
-			//}
+				fired = true;
+			}
 		}
 		keys[wParam] = TRUE;
 
 		break;
 	}
 	case WM_KEYUP:
+		if (fired) {
+			fired = false;
+		}
 		keys[wParam] = FALSE;
 
 		break;
@@ -382,10 +386,10 @@ void DrawTerrain()
 {
 	glBegin(GL_QUADS);
 	glColor3f(0.5, 1, 1);
-	glVertex3f(-100, 0, 100);
-	glVertex3f(-100, 0, -100);
-	glVertex3f(100, 0, -100);
-	glVertex3f(100, 0, 100);
+	glVertex3f(-50, 0, 50);
+	glVertex3f(-50, 0, -50);
+	glVertex3f(50, 0, -50);
+	glVertex3f(50, 0, 50);
 	glEnd();
 }
 
@@ -397,7 +401,7 @@ void DrawGLScene() {
 	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 
-	gluLookAt(10, 10, 10,
+	gluLookAt(20, 10, 20,
 		0, 0, 0,
 		0, 1, 0);
 	
