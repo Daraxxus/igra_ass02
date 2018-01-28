@@ -99,6 +99,7 @@ void Firing::HandleKeyDown(std::vector<float> GetPosRot)
 	}
 	Firing *fire = new Firing(x, y, z, yR, xRB, yRB);
 	shell.push_back(fire);
+
 }
 
 Firing::~Firing()

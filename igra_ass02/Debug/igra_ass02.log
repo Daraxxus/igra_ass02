@@ -1,6 +1,4 @@
-﻿  igra_ass02.cpp
-c:\users\asus\igra_ass02\igra_ass02\igra_ass02.cpp(417): warning C4018: '<': signed/unsigned mismatch
-  Firing.cpp
+﻿  Firing.cpp
 c:\users\asus\igra_ass02\igra_ass02\firing.cpp(13): warning C4305: '=': truncation from 'double' to 'float'
 c:\users\asus\igra_ass02\igra_ass02\firing.cpp(24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\asus\igra_ass02\igra_ass02\firing.cpp(25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
@@ -12,4 +10,6 @@ c:\users\asus\igra_ass02\igra_ass02\firing.cpp(75): warning C4244: '+=': convers
 c:\users\asus\igra_ass02\igra_ass02\firing.cpp(76): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
 c:\users\asus\igra_ass02\igra_ass02\firing.cpp(84): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
+  Skipping... (no relevant changes detected)
+  igra_ass02.cpp
   igra_ass02.vcxproj -> C:\Users\Asus\igra_ass02\Debug\igra_ass02.exe

@@ -11,6 +11,7 @@ public:
 
 	void Update(double deltaTime);
 	static void HandleKeyDown(std::vector<float> GetPosRot);
+
 	static std::vector<Firing*> shell;
 
 	~Firing();
