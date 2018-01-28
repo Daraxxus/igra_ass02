@@ -70,10 +70,6 @@ void Firing::CalcAngleDuringTraj() //angle of bullet when following curve
 
 void Firing::Update(double deltaTime)
 {
-	/*x = power * cos(elevation) * sin(azimuth);
-	z = power * cos(elevation) * cos(azimuth);
-	y = power * sin(elevation);*/
-
 	debug(to_string(speed));
 	if (yPos < 0) {
 		yPos = 0; //stop bullet on floor

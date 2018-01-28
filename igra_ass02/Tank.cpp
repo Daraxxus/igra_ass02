@@ -75,15 +75,6 @@ int tankIndices[] = {
 	4, 7, 1, 0, //bottom face
 };
 
-//float tankColors[][3] = {
-//	0, 1, 0, // Front is Green
-//	1, 0, 0, // Back is Red
-//	0, 0, 1, // Right is Blue
-//	1, 1, 0, // Left is Yellow
-//	0.5, 0.5, 0.5,
-//	0.5, 0.5, 0.5,
-//};
-
 void Tank::DrawTank() {
 	glEnable(GL_LIGHTING);
 
@@ -97,18 +88,18 @@ void Tank::DrawTank() {
 
 	Material blueMaterial = 
 	{
-		{ 0.0, 0.0, 0.7, 1.0 }, // Ambient
-		{ 0.0, 0.0, 0.9, 1.0 }, // Diffuse
-		{ 0.8, 0.8, 0.8, 1.0 }, // Specular
-		32 // Shininess
+		{ 0.0, 0.0, 0.7, 1.0 },
+		{ 0.0, 0.0, 0.9, 1.0 },
+		{ 0.8, 0.8, 0.8, 1.0 },
+		32
 	};
 
 	Material blackMaterial = 
 	{
-		{ 0.0, 0.0, 0.0, 1.0 }, // Ambient
-		{ 0.0, 0.0, 0.0, 1.0 }, // Diffuse
-		{ 0.8, 0.8, 0.8, 1.0 }, // Specular
-		32 // Shininess
+		{ 0.0, 0.0, 0.0, 1.0 },
+		{ 0.0, 0.0, 0.0, 1.0 },
+		{ 0.8, 0.8, 0.8, 1.0 },
+		32
 	};
 
 	float currentNormalX;
@@ -263,7 +254,6 @@ float Tank::degToRad(float degAngle) {
 
 void Tank::MoveForward(float acceleration, double deltaTime)
 {
-	// Calculate direction as based on current yRotation angle
 	dirX = sin(degToRad(yRot));
 	dirZ = cos(degToRad(yRot));
 	if (fabsf(speed) < maxSpeed) {

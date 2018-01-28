@@ -1,4 +1,40 @@
-﻿  igra_ass02.cpp
-c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\igra_ass02.cpp(443): warning C4018: '<': signed/unsigned mismatch
-  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.exe
-  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.pdb (Partial PDB)
+﻿  stdafx.cpp
+  igra_ass02.cpp
+c:\users\asus\igra_ass02\igra_ass02\igra_ass02.cpp(443): warning C4018: '<': signed/unsigned mismatch
+  Tank.cpp
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(16): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(18): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(96): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(96): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(104): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(104): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(112): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(112): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(118): warning C4101: 'currentMidPointX': unreferenced local variable
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(119): warning C4101: 'currentMidPointY': unreferenced local variable
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(120): warning C4101: 'currentMidPointZ': unreferenced local variable
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(203): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(211): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(241): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(247): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(255): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(256): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(261): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(270): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(277): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\tank.cpp(286): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Firing.cpp
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(36): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(83): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(85): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(86): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(87): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(88): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\igra_ass02\igra_ass02\firing.cpp(96): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  igra_ass02.vcxproj -> C:\Users\Asus\igra_ass02\Debug\igra_ass02.exe
