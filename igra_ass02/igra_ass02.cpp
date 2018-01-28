@@ -213,7 +213,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			for (int i = 0; i < maxProj; i++)
 			if (!fired && (deltaTime < cd)) {
 				Firing::HandleKeyDown(tank.ReturnCurrentPosition());
 				fired = true;
