@@ -1,15 +1,4 @@
 ﻿  igra_ass02.cpp
-c:\users\asus\igra_ass02\igra_ass02\igra_ass02.cpp(417): warning C4018: '<': signed/unsigned mismatch
-  Firing.cpp
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(13): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(26): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(72): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(74): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(75): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(76): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\asus\igra_ass02\igra_ass02\firing.cpp(84): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  igra_ass02.vcxproj -> C:\Users\Asus\igra_ass02\Debug\igra_ass02.exe
+c:\users\sandv\documents\visual studio 2017\projects\igra_ass02\igra_ass02\igra_ass02\igra_ass02.cpp(443): warning C4018: '<': signed/unsigned mismatch
+  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.exe
+  igra_ass02.vcxproj -> C:\Users\sandv\Documents\Visual Studio 2017\Projects\igra_ass02\igra_ass02\Debug\igra_ass02.pdb (Partial PDB)

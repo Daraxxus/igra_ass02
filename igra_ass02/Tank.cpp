@@ -75,14 +75,14 @@ int tankIndices[] = {
 	4, 7, 1, 0, //bottom face
 };
 
-float tankColors[][3] = {
-	0, 1, 0, // Front is Green
-	1, 0, 0, // Back is Red
-	0, 0, 1, // Right is Blue
-	1, 1, 0, // Left is Yellow
-	0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5,
-};
+//float tankColors[][3] = {
+//	0, 1, 0, // Front is Green
+//	1, 0, 0, // Back is Red
+//	0, 0, 1, // Right is Blue
+//	1, 1, 0, // Left is Yellow
+//	0.5, 0.5, 0.5,
+//	0.5, 0.5, 0.5,
+//};
 
 void Tank::DrawTank() {
 	glEnable(GL_LIGHTING);
@@ -129,8 +129,6 @@ void Tank::DrawTank() {
 	SetThisMaterial(&blueMaterial);
 	for (int qd = 0; qd < 6; qd++) {
 		glBegin(GL_QUADS);
-		/*glColor3f(tankColors[qd][0], tankColors[qd][1],
-			tankColors[qd][2]);*/
 		for (int v = 0; v < 4; v++) { 
 			glVertex3f(tankVertices[tankIndices[index]][0],
 				tankVertices[tankIndices[index]][1],
@@ -148,7 +146,6 @@ void Tank::DrawTank() {
 
 
 	SetThisMaterial(&redMaterial);
-	/*glColor3f(1, 0, 0);*/
 	glPushMatrix();
 	glTranslatef(0, 1, 0);
 	GLUquadric *quad;
@@ -157,7 +154,6 @@ void Tank::DrawTank() {
 	glPopMatrix();
 
 	//Draw Barrel of Tank
-	/*glColor3f(1, 1, 0);*/
 	SetThisMaterial(&blackMaterial);
 	glPushMatrix();
 	glTranslatef(0, 1.5, 0);
@@ -168,25 +164,6 @@ void Tank::DrawTank() {
 	glPopMatrix();
 	glPopMatrix();
 
-	////FiringPoint 
-	//glColor3f(0, 0, 1);
-	//glPushMatrix();
-
-	//float radYRotBarrel = degToRad(yRotBarrel);
-	//float radXRotBarrel = degToRad(xRotBarrel);
-	//float radYRot = degToRad(yRot);
-
-	//float dist = 2 * cos(-radYRotBarrel); 
-	//float y = yPos + 1.5 + 2 * sin(-radYRotBarrel);
-	//float z = zPos + dist * cos(radYRot + radXRotBarrel);
-	//float x = xPos + dist * sin(radYRot + radXRotBarrel);
-
-	//glTranslatef(x, y, z);
-
-	//GLUquadric *quadtest;
-	//quadtest = gluNewQuadric();
-	//gluSphere(quadtest, 0.25, 100, 20);
-	//glPopMatrix();
 	glDisable(GL_LIGHTING);
 }
 

@@ -30,8 +30,9 @@ int EXTRA_HEIGHT = 58;
 int EXTRA_WIDTH = 20;
 int rotateDeg = 1;
 bool fired = false;
-double cd = 1.00 ;
+double cd = 2.00 ;
 int maxProj = 10;
+int projFired = 0;
 
 Tank tank;
 
@@ -39,7 +40,10 @@ __int64 startTimeInCounts = 0;
 __int64 lastTimeInCounts = 0;
 __int64 countsPerSecond;
 
-double deltaTime;
+double deltaTime = 0;
+double deltaTimeCD = cd;
+
+Firing::AvailableSpeed userChosenSpeed;
 
 void StartTimer();
 double GetTimePassedSinceLastTime();
@@ -135,7 +139,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_IGRA_ASS02));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_IGRA_ASS02);
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDR_MENU1);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -167,11 +171,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
+   CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_SLOW, MF_CHECKED);
+   CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_MEDIUM, MF_UNCHECKED);
+   CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_FAST, MF_UNCHECKED);
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
    ReSizeGLScene(width, height);
-   StartTimer();
-   Tank::Player = tank;
    return TRUE;
 }
 
@@ -195,14 +200,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // Parse the menu selections:
             switch (wmId)
             {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
+			case ID_BULLETSPEED_SLOW: 
+				userChosenSpeed = Firing::SLOW;
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_SLOW, MF_CHECKED);
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_MEDIUM, MF_UNCHECKED);
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_FAST, MF_UNCHECKED);
+				break;
+			case ID_BULLETSPEED_MEDIUM:
+				userChosenSpeed = Firing::MEDIUM;
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_SLOW, MF_UNCHECKED);
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_MEDIUM, MF_CHECKED);
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_FAST, MF_UNCHECKED);
+				break;
+			case ID_BULLETSPEED_FAST:
+				userChosenSpeed = Firing::FAST;
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_SLOW, MF_UNCHECKED);
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_MEDIUM, MF_UNCHECKED);
+				CheckMenuItem(GetMenu(hWnd), ID_BULLETSPEED_FAST, MF_CHECKED);
+				break;
             }
         }
         break;
@@ -213,20 +228,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			if (!fired && (deltaTime < cd)) {
-				Firing::HandleKeyDown(tank.ReturnCurrentPosition());
-				fired = true;
-				deltaTime = 0;
+			if (!fired) {
+				if (projFired < maxProj) {
+					Firing::HandleKeyDown(tank.ReturnCurrentPosition(), userChosenSpeed);
+					fired = true;
+					projFired++;
+					StartTimer();
+				}
 			}
+		}
+
+		if (GetAsyncKeyState('R')) {
+			Firing::shell.clear();
+			projFired = 0;
 		}
 		keys[wParam] = TRUE;
 
 		break;
 	}
 	case WM_KEYUP:
-		if (fired && (deltaTime < cd)) {
-			fired = false;
-		}
 		keys[wParam] = FALSE;
 
 		break;
@@ -409,7 +429,14 @@ void DrawGLScene() {
 	
 	Draw3D_AxisSystem();
 	DrawTerrain();
-	
+
+	deltaTimeCD = GetTimePassedSinceStart();
+
+	if (deltaTimeCD >= cd) {
+		fired = false;
+		deltaTimeCD = 0;
+	}
+
 	deltaTime = GetTimePassedSinceLastTime();
 
 	tank.DrawTank();
